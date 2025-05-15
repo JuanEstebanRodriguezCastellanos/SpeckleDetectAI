@@ -30,6 +30,22 @@ st.markdown("""
 st.markdown("<h1 style='text-align: center;'>Suavizado y detección 🤖</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
+MODEL_PATH = "modelo50.pth" 
+
+def descargar_modelo():
+    url = "https://drive.google.com/uc?export=download&id=15rLHBPmfmN2XF8tSFjWs8M6gRV7cuSUl"
+    if not os.path.exists(MODEL_PATH):
+        os.makedirs("modelo", exist_ok=True)
+        st.info("Descargando modelo, por favor espera...")
+        response = requests.get(url, stream=True)
+        with open(MODEL_PATH, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+        st.success("Modelo descargado correctamente.")
+
+descargar_modelo()
+
 # Función para aplicar el filtro
 def procesarImagen(image):
     filtro = Filtro()
